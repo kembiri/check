@@ -7,6 +7,12 @@
     body { font-family: sans-serif; padding: 20px; }
     .ok { color: green; }
     .fail { color: red; }
+    button {
+      margin-left: 10px;
+      padding: 4px 8px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -15,26 +21,30 @@
 
   <script>
     const urls = [
-      'https://kembiri.github.io/film/',
       'https://kembiri.glitch.me/',
       'https://kembiri.netlify.app/',
+      'https://kembiri.github.io/film/',
+      'https://kembiri.blogspot.com/p/film.html',
       'https://kembiri.tiiny.site/',
-      'https://kembiri.blogspot.com/p/film.html',      
       'http://kembiri.free.nf/?i=1'
     ];
 
     const resultsContainer = document.getElementById('results');
 
     urls.forEach(url => {
-      fetch(url, { method: 'HEAD' }) // gunakan HEAD untuk efisiensi
+      fetch(url, { method: 'HEAD' })
         .then(response => {
           const li = document.createElement('li');
-          li.innerHTML = `${url} → <span class="ok">✅ ${response.status} OK</span>`;
+          const status = `<span class="ok">✅ ${response.status} OK</span>`;
+          const button = `<button onclick="window.open('${url}', '_blank')">Buka</button>`;
+          li.innerHTML = `${url} → ${status} ${button}`;
           resultsContainer.appendChild(li);
         })
         .catch(error => {
           const li = document.createElement('li');
-          li.innerHTML = `${url} → <span class="fail">❌ Tidak bisa diakses</span>`;
+          const status = `<span class="fail">❌ Tidak bisa diakses</span>`;
+          const button = `<button onclick="window.open('${url}', '_blank')">Buka</button>`;
+          li.innerHTML = `${url} → ${status} ${button}`;
           resultsContainer.appendChild(li);
         });
     });
